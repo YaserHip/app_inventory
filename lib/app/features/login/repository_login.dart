@@ -8,12 +8,23 @@ class RepositoryLogin {
   RepositoryLogin({required this.account});
   final Account account;
 
-  Future<void> oAuth2Session(String provider) async {
-    final value = await account.createOAuth2Session(provider: provider);
-    return value;
+  Future<bool> oAuth2Session(String provider) async {
+    try {
+      await account.createOAuth2Session(provider: provider);
+      return true;
+    } on Exception catch (e, _) {
+      return false;
+    }
   }
 }
 
 @riverpod
 RepositoryLogin repositoryLogin(RepositoryLoginRef ref) =>
     RepositoryLogin(account: ref.watch(awAccountProvider));
+
+@riverpod
+Future<bool> authGoogleSession(AuthGoogleSessionRef ref,
+    {required String provider}) {
+  final repoLogin = ref.watch(repositoryLoginProvider).oAuth2Session(provider);
+  return repoLogin;
+}
