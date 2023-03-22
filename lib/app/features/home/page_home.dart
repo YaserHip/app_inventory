@@ -12,12 +12,9 @@ class PageHome extends ConsumerWidget {
       color: Colors.amber,
       child: Center(
           child: ElevatedButton(
-        child: Text('account'),
+        child: Text('Logout'),
         onPressed: () async {
-          final acc = await accountProv.get();
-          final sess = await accountProv.getSession(sessionId: 'current');
-          print('session: ${sess.toMap()}');
-          print('account: ${acc.toMap()}');
+          await accountProv.deleteSession(sessionId: 'current');
         },
       )),
     );

@@ -14,6 +14,25 @@ enum AppRoute {
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/login',
+    redirect: (context, state) async {
+      final account = ref.watch(awAccountProvider);
+      var isLogged = false;
+      try {
+        await account.get();
+        isLogged = true;
+      } on Exception catch (e, _) {}
+
+      if (isLogged) {
+        if (state.subloc.startsWith('/login')) {
+          return '/';
+        }
+      } else {
+        if (state.subloc.startsWith('/')) {
+          return '/login';
+        }
+      }
+      return null;
+    },
     routes: [
       GoRoute(
         path: '/',
