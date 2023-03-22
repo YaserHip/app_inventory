@@ -10,7 +10,8 @@ class RepositoryLogin {
 
   Future<bool> oAuth2Session(String provider) async {
     try {
-      await account.createOAuth2Session(provider: provider);
+      await account.createOAuth2Session(
+          provider: provider, success: 'http://localhost:43663/auth.html');
       return true;
     } on Exception catch (e, _) {
       return false;

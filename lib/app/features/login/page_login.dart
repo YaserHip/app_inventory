@@ -21,6 +21,7 @@ class PageLogin extends ConsumerWidget {
 
             if (session) {
               nav.goNamed(AppRoute.home.name);
+              nav.pop();
             }
           },
         ),
